@@ -1,71 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import Chip from '@material-ui/core/Chip';
-import {API_SERVER} from './settings.js';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import React from 'react';
+import { Router } from 'react-router-dom';
+import { StyleSheet } from 'react-native';
+
+import history from './services/history';
+import Routes from './routes';
 
 const App: () => React$Node = () => {
-  const  [hasError, setErrors] =  useState(false);
-  const  [planets,setPlanets ]= useState({});
-
-  async function fetchData() {
-    const res = await fetch(`${API_SERVER}/thingaroo`);
-    res
-      .json()
-      .then(res => setPlanets(res))
-      .catch(err => setErrors(err));
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, [])
-
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Testing text here:</Text>
-              <Text style={styles.sectionDescription}>
-                Super text!
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>ThingaRoos:</Text>
-              <Text style={styles.sectionDescription}>
-                {JSON.stringify(planets)}
-              </Text>
-            </View>            
-            {/* <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Thingaroos:</Text>
-              <Chip
-                label="This"
-                color="primary"
-              />
-            </View> */}
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
+    return (
+      <Router history={history}>
+        <Routes />
+      </Router>
+    );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   engine: {
     position: 'absolute',
     right: 0,

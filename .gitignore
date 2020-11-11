@@ -63,12 +63,9 @@ buck-out/
 *.pot
 *.pyc
 __pycache__/
-local_settings.py
 media
 .venv
 venv/
 virtualenv/
-ENV/
-env.bak/
 venv.bak/
 dist/ 
