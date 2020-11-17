@@ -9,7 +9,7 @@ export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={SignIn} />
-      <Route path="/register" component={SignUp} />
+      <Route path="/signup" component={SignUp} />
       <Route path="/dashboard" component={Dashboard} isPrivate />
       {/* redirect user to SignIn page if route does not exist and user is not authenticated */}
       <Route component={SignIn} />

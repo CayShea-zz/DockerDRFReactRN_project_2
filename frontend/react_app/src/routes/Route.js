@@ -23,7 +23,7 @@ export default function RouteWrapper({
   */   
   if (!isPrivate && signed) {     
     return <Redirect to="/dashboard" />;   
-  }    
+  }
   
   /**    
   * If not included on both previous cases, redirect user to the desired route.    

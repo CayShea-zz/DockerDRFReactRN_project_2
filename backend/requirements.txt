@@ -9,3 +9,4 @@ joblib==0.16.0
 gunicorn==20.0.4
 drf-yasg==1.17.1
 shortuuid==1.0.1
+django-allauth==0.43.0
