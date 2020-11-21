@@ -4,7 +4,6 @@ import * as settings from '../settings';
 
 const SESSION_DURATION = settings.SESSION_DURATION
 
-
 // ########################################################
 // ########################################################
 // Auth Action Functions returning Action Objects
@@ -83,6 +82,27 @@ export const authLogin = (email, password) => {
     }
 }
 
+export const authSignup = (email, password) => {
+    return dispatch => {
+        dispatch(authStart());
+        axios.post(`${settings.API_SERVER}/registration/`, {
+            email: email,
+            password1: password,
+            password2: password
+        })
+        .then(res => {
+            const token = res.data.key;
+            const expirationDate = new Date(new Date().getTime() + SESSION_DURATION );
+            localStorage.setItem('token', token);
+            localStorage.setItem('expirationDate', expirationDate);
+            dispatch(authSuccess(token));
+            dispatch(authCheckTimeout(SESSION_DURATION));
+        })
+        .catch(err => {
+            dispatch(authFail(err))
+        });
+    }
+}
 
 export const authCheckState = () => {
     return dispatch => {

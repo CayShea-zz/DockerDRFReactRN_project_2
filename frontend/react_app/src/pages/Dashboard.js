@@ -62,19 +62,24 @@ export default function Dashboard(props) {
             </TableRow>
             </TableHead>
             <TableBody>
-            {trips.map((row) => (
-                <TableRow 
-                    key={row.id}
-                    onClick={() => { alert('navigate to trip details') }}
-                    hover
-                >
-                    <TableCell component="th" scope="row">{row.name}</TableCell>
-                    <TableCell align="right">{row.startdate}</TableCell>
-                    <TableCell align="right">{row.start_location}</TableCell>
-                    <TableCell align="right">{row.budget}</TableCell>
-                    <TableCell align="right">{row.classification ? row.classification : '--'}</TableCell>
-                </TableRow>
-            ))}
+            { trips.length > 0 ?
+              ( trips.map((row) => (
+                  <TableRow 
+                      key={row.id}
+                      onClick={() => { alert('navigate to trip details') }}
+                      hover
+                  >
+                      <TableCell component="th" scope="row">{row.name}</TableCell>
+                      <TableCell align="right">{row.startdate}</TableCell>
+                      <TableCell align="right">{row.start_location}</TableCell>
+                      <TableCell align="right">{row.budget}</TableCell>
+                      <TableCell align="right">{row.classification ? row.classification : '--'}</TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow />
+              )
+            }
             </TableBody>
         </Table>
         </TableContainer>
