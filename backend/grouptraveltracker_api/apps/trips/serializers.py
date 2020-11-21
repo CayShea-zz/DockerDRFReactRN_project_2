@@ -15,6 +15,7 @@ class TripSerializer(serializers.ModelSerializer):
         model = Trip
         fields = '__all__'
 
+
 class TripWriteSerializer(serializers.ModelSerializer):
     owner_id = serializers.PrimaryKeyRelatedField(
         queryset=CustomUser.objects.all(),
@@ -38,7 +39,6 @@ class TripWriteSerializer(serializers.ModelSerializer):
         summary = validated_data.get("summary")
         budget = validated_data.get("budget")
         classification = validated_data.get("classification")
-        # owner = CustomUser.objects.get(pk='3cdLFgRBi2XxH2Gq4aQwy6')
 
         trip = Trip.objects.create(**validated_data)
         return trip
