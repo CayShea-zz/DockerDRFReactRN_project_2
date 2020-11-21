@@ -21,7 +21,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('apps.trips.urls')),
-    path('/registration/', include('rest_auth.registration.urls')),
+    path('registration/', include('rest_auth.registration.urls')),
     path('rest-auth/', include('rest_auth.urls')),
     path('registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),
     path('accounts/', include('allauth.urls')),

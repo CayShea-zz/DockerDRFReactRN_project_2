@@ -26,17 +26,21 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Dashboard() {
+export default function Dashboard(props) {
     const  [ hasError, setErrors ] =  useState(false);
     const  [ trips, setTrips ]= useState([]);
     const [ loading, setLoading ] = useState(false)
     const classes = useStyles();
+
+    const header = new Headers({'Authorization': `Token ${props.token}`});
+    const request = new Request(`${API_SERVER}/api/trips/`, {
+      method: 'GET',
+      headers: header
+    })
     async function fetchData() {
-        const res = await fetch(`${API_SERVER}/trip/`);
-        res
-        .json()
+        const res = await fetch(request);
+        res.json()
         .then(res => {
-            console.log("api server: ", res)
             setTrips(res)
         })
         .catch(err => setErrors(err));
