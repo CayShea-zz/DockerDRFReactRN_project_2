@@ -12,42 +12,36 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { connect } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        GroupTravelTracker
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import * as actions from '../store/authActions';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
 
-export default function SignUp() {
+function SignUp(props) {
   const classes = useStyles();
+  const [email, setEmail] = React.useState(null);
+  const [password, setPassword] = React.useState(null);
+  let history = useHistory();
+  let location = useLocation();
+  let { from } = location.state || { from: { pathname: "/" } }
+
+  React.useEffect(() => {
+    if (props.isAuthenticated) { history.replace(from) }
+  });
+
+  const handleFormFieldChange = (event) => {
+    switch(event.target.id) {
+      case 'email': setEmail(event.target.value); break;
+      case 'password': setPassword(event.target.value); break;
+      default: return null;
+    }
+ }
+
+ const handleSubmit = (e) => {
+  e.preventDefault();
+  props.onAuth(email, password);
+ }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -59,9 +53,9 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <TextField
                 autoComplete="fname"
                 name="displayName"
@@ -71,8 +65,9 @@ export default function SignUp() {
                 id="displayName"
                 label="Display Name"
                 autoFocus
+                onChange={handleFormFieldChange}
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -82,6 +77,7 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={handleFormFieldChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -94,6 +90,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={handleFormFieldChange}
               />
             </Grid>
             {/* <Grid item xs={12}>
@@ -121,9 +118,35 @@ export default function SignUp() {
           </Grid>
         </form>
       </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
     </Container>
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (email, password) => dispatch(actions.authSignup(email, password))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SignUp);
